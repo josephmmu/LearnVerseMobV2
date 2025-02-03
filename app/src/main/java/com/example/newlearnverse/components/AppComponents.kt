@@ -3,6 +3,7 @@ package com.example.newlearnverse.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -88,8 +89,6 @@ fun HeadingTextComponents(value: String) {
         textAlign = TextAlign.Center
     )
 }
-
-
 
 @Composable
 fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter, errorStatus: Boolean = false) {
@@ -248,7 +247,8 @@ fun MyButtonComponent(value: String) {
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    onOpenDrawer: () -> Unit
 ) {
     TopAppBar(
         modifier = modifier
@@ -271,6 +271,7 @@ fun TopBar(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 8.dp)
                     .size(27.dp)
+                    .clickable{ onOpenDrawer() }
             )
         },
         actions = {
