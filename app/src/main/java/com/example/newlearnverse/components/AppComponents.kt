@@ -5,22 +5,33 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -231,5 +242,53 @@ fun MyButtonComponent(value: String) {
         }
 
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    TopAppBar(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(100.dp)), // To make it rounded
+        scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        windowInsets = WindowInsets(top = 0.dp),
+        title = {
+            Text(text = "Home",
+                color = MaterialTheme.colorScheme.onBackground.copy(0.7f),
+                fontSize = 17.sp)
+        },
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Menu,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .size(27.dp)
+            )
+        },
+        actions = {
+            Icon(
+                imageVector = Icons.Rounded.Notifications,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(30.dp)
+            )
+            Icon(
+                imageVector = Icons.Rounded.AccountCircle,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 4.dp, end = 16.dp)
+                    .size(30.dp)
+            )
+        }
+    )
 }
 
