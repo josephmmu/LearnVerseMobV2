@@ -57,13 +57,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             NewLearnVerseTheme {
 
-                SubjectScreenWTopBar()
+
+                LoginScreen()
+
+                //SubjectScreenWTopBar()
 
             }
 
 
         }
     }
+}
+
+@Composable
+@Preview
+fun showthis() {
+    LoginScreen()
 }
 
 
