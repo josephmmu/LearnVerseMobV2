@@ -44,21 +44,35 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.newlearnverse.components.TopBar
 import com.example.newlearnverse.ui.theme.NewLearnVerseTheme
 import kotlinx.coroutines.launch
 import javax.security.auth.Subject
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             NewLearnVerseTheme {
 
+                val navController = rememberNavController()
 
-                LoginScreen()
+
+                NavHost(navController = navController, startDestination = Routes.loginScreen, builder = {
+                    composable(Routes.loginScreen) {
+                        LoginScreen(navController)
+                    }
+
+                    composable(Routes.homeScreen) {
+                        SubjectScreenWTopBar()
+                    }
+                })
+
+
 
                 //SubjectScreenWTopBar()
 
@@ -69,11 +83,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-@Preview
-fun showthis() {
-    LoginScreen()
-}
+
 
 
 

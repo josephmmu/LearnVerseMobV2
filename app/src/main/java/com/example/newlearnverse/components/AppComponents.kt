@@ -1,6 +1,6 @@
 package com.example.newlearnverse.components
 
-import android.media.audiofx.AudioEffect.Descriptor
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -21,11 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicSecureTextField
-import androidx.compose.foundation.text2.BasicTextField2
-import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.foundation.text2.input.TextFieldState
-import androidx.compose.foundation.text2.input.TextObfuscationMode
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -42,13 +37,17 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -57,7 +56,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -81,7 +82,9 @@ import com.example.newlearnverse.ui.theme.Purple40
 fun NormalTextComponents(value: String) {
     Text(
         text = value,
-        modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 80.dp),
         style = TextStyle(
             fontSize =  18.sp,
             fontWeight = FontWeight.Normal,
@@ -96,7 +99,9 @@ fun NormalTextComponents(value: String) {
 fun HeadingTextComponents(value: String) {
     Text(
         text = value,
-        modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 80.dp),
         style = TextStyle(
             fontSize =  30.sp,
             fontWeight = FontWeight.Bold,
@@ -185,7 +190,7 @@ fun TextFieldComponent(labelValue: String, painterResource: Painter) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .border( BorderStroke(1.dp, color = colorResource(id = R.color.colorGray) ))
+            .border(BorderStroke(1.dp, color = colorResource(id = R.color.colorGray)))
             .clip(componentShapes.small),
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.colors(
@@ -248,7 +253,7 @@ fun MyButtonComponent(value: String) {
             .background(
                 brush = Brush.horizontalGradient(listOf(Purple40, Pink40)),
                 shape = RoundedCornerShape(50.dp)
-                ),
+            ),
             contentAlignment = Alignment.Center
         ) {
             Text(text = value,
@@ -287,7 +292,7 @@ fun TopBar(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 8.dp)
                     .size(27.dp)
-                    .clickable{ onOpenDrawer() }
+                    .clickable { onOpenDrawer() }
             )
         },
         actions = {
@@ -309,202 +314,268 @@ fun TopBar(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+//@OptIn(ExperimentalFoundationApi::class)
+//@Composable
+//fun MyTextField(modifier : Modifier = Modifier,
+//                   leadingIcon: ImageVector? = null,
+//                   trailingIcon: ImageVector? = null,
+//                   trailingText: String? = null,
+//                   textFieldState: TextFieldState,
+//                   hint: String,
+//                   keyboardType: KeyboardType = KeyboardType.Text,
+//                   isPassword: Boolean = false,
+//                   onLeadingClick: () -> Unit = {},
+//                   onTrailingClick: () -> Unit = {}) {
+//    if (isPassword) {
+////        PasswordTextField2(
+////            modifier = modifier,
+////            leadingIcon = leadingIcon,
+////            trailingIcon = trailingIcon,
+////            trailingText = trailingText,
+////            textFieldState = textFieldState,
+////            hint = hint,
+////            onLeadingClick = onLeadingClick,
+////            onTrailingClick = onTrailingClick
+////        )
+//
+//
+//    } else {
+////        EmailTextField2(
+////            modifier = modifier,
+////            leadingIcon = leadingIcon,
+////            trailingIcon = trailingIcon,
+////            trailingText = trailingText,
+////            textFieldState = textFieldState,
+////            hint = hint ,
+////            keyboardType = keyboardType,
+////            onLeadingClick = onLeadingClick,
+////            onTrailingClick = onTrailingClick,
+////        )
+//    }
+//}
+
 @Composable
-fun MyTextField(modifier : Modifier = Modifier,
-                   leadingIcon: ImageVector? = null,
-                   trailingIcon: ImageVector? = null,
-                   trailingText: String? = null,
-                   textFieldState: TextFieldState,
-                   hint: String,
-                   keyboardType: KeyboardType = KeyboardType.Text,
-                   isPassword: Boolean = false,
-                   onLeadingClick: () -> Unit = {},
-                   onTrailingClick: () -> Unit = {}) {
+fun LoginTextFields(
+    hint:String,
+    modifier: Modifier = Modifier,
+    isPassword: Boolean
+) {
     if (isPassword) {
         PasswordTextField(
-            modifier = modifier,
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            trailingText = trailingText,
-            textFieldState = textFieldState,
-            hint = hint,
-            onLeadingClick = onLeadingClick,
-            onTrailingClick = onTrailingClick
+            hint = "Password",
+            modifier = modifier
         )
     } else {
         EmailTextField(
-            modifier = modifier,
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            trailingText = trailingText,
-            textFieldState = textFieldState,
-            hint = hint ,
-            keyboardType = keyboardType,
-            onLeadingClick = onLeadingClick,
-            onTrailingClick = onTrailingClick
+            hint = "Email",
+            modifier = modifier
         )
     }
+
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EmailTextField(
-    modifier : Modifier = Modifier,
-    leadingIcon: ImageVector? = null,
-    trailingIcon: ImageVector? = null,
-    trailingText: String? = null,
-    textFieldState: TextFieldState,
     hint: String,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    onLeadingClick: () -> Unit = {},
-    onTrailingClick: () -> Unit = {}
+    modifier: Modifier
 ) {
-    BasicTextField2(
-        state = textFieldState,
-        textStyle = LocalTextStyle.current.copy(
-            color = MaterialTheme.colorScheme.onBackground
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        lineLimits = TextFieldLineLimits.SingleLine,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+    var text by remember { mutableStateOf("")}
+
+    TextField(
+        value = text,
+        onValueChange = { text = it },
+        label = { Text(hint) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         modifier = modifier,
-        decorator = {innerTextField ->
-            Column {
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    if(leadingIcon != null) {
-                        Icon(
-                            imageVector = leadingIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
-                            modifier = Modifier
-                                .clickable{onLeadingClick()}
-                        )
 
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        if (textFieldState.text.isEmpty()) {
-                            Text(text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
-                                modifier = Modifier.fillMaxWidth())
-                        }
-                        innerTextField()
-                    }
-
-                    if(trailingIcon != null) {
-                        Icon(
-                            imageVector = trailingIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
-                            modifier = Modifier
-                                .padding(end = 4.dp)
-                                .clickable{onTrailingClick()}
-                        )
-                    } else if  (trailingText != null){
-                        Text(
-                            text = trailingText,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(end = 4.dp)
-                                .clickable{onTrailingClick()}
-                        )
-                    }
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                HorizontalDivider(modifier = Modifier.alpha(0.7f))
-            }
-        }
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PasswordTextField(
-    modifier : Modifier = Modifier,
-    leadingIcon: ImageVector? = null,
-    trailingIcon: ImageVector? = null,
-    trailingText: String? = null,
-    textFieldState: TextFieldState,
     hint: String,
-    onLeadingClick: () -> Unit = {},
-    onTrailingClick: () -> Unit = {}
+    modifier: Modifier
 ) {
-    BasicSecureTextField(
-        state = textFieldState,
-        textObfuscationMode = TextObfuscationMode.Hidden ,
-        textStyle = LocalTextStyle.current.copy(
-            color = MaterialTheme.colorScheme.onBackground
-        ),
-        keyboardType = KeyboardType.Password,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+    var password by rememberSaveable { mutableStateOf("") }
+
+    TextField(
+        value = password,
+        onValueChange = { password = it },
+        label = { Text(hint) },
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         modifier = modifier,
-        decorator = {innerTextField ->
-            Column {
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    if(leadingIcon != null) {
-                        Icon(
-                            imageVector = leadingIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
-                            modifier = Modifier
-                                .clickable{onLeadingClick()}
-                        )
+        maxLines = 1,
+        colors = TextFieldDefaults.colors()
 
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        if (textFieldState.text.isEmpty()) {
-                            Text(text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
-                                modifier = Modifier.fillMaxWidth())
-                        }
-                        innerTextField()
-                    }
-
-                    if(trailingIcon != null) {
-                        Icon(
-                            imageVector = trailingIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
-                            modifier = Modifier
-                                .padding(end = 4.dp)
-                                .clickable{onTrailingClick()}
-                        )
-                    } else if  (trailingText != null){
-                        Text(
-                            text = trailingText,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(end = 4.dp)
-                                .clickable{onTrailingClick()}
-                        )
-                    }
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                HorizontalDivider(modifier = Modifier.alpha(0.7f))
-            }
-        }
     )
 }
+
+
+//@OptIn(ExperimentalFoundationApi::class)
+//@Composable
+//fun EmailTextField2(
+//    modifier : Modifier = Modifier,
+//    leadingIcon: ImageVector? = null,
+//    trailingIcon: ImageVector? = null,
+//    trailingText: String? = null,
+//    textFieldState: TextFieldState,
+//    hint: String,
+//    keyboardType: KeyboardType = KeyboardType.Text,
+//    onLeadingClick: () -> Unit = {},
+//    onTrailingClick: () -> Unit = {}
+//) {
+//    var text by remember { mutableStateOf("")}
+//
+//    BasicTextField2(
+//        state = textFieldState,
+//        textStyle = LocalTextStyle.current.copy(
+//            color = MaterialTheme.colorScheme.onBackground
+//        ),
+//        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+//        lineLimits = TextFieldLineLimits.SingleLine,
+//        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+//        modifier = modifier,
+//        decorator = {innerTextField ->
+//            Column {
+//                Row (
+//                    modifier = Modifier.fillMaxWidth(),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ){
+//                    if(leadingIcon != null) {
+//                        Icon(
+//                            imageVector = leadingIcon,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
+//                            modifier = Modifier
+//                                .clickable{onLeadingClick()}
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                    }
+//
+//                    Box(
+//                        modifier = Modifier.weight(1f)
+//                    ) {
+//                        if (textFieldState.text.isEmpty()) {
+//                            Text(text = hint,
+//                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
+//                                modifier = Modifier.fillMaxWidth())
+//                        }
+//                        innerTextField()
+//                    }
+//
+//                    if(trailingIcon != null) {
+//                        Icon(
+//                            imageVector = trailingIcon,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
+//                            modifier = Modifier
+//                                .padding(end = 4.dp)
+//                                .clickable { onTrailingClick() }
+//                        )
+//                    } else if  (trailingText != null){
+//                        Text(
+//                            text = trailingText,
+//                            color = MaterialTheme.colorScheme.primary,
+//                            fontWeight = FontWeight.SemiBold,
+//                            modifier = Modifier
+//                                .padding(end = 4.dp)
+//                                .clickable { onTrailingClick() }
+//                        )
+//                    }
+//
+//                }
+//
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                HorizontalDivider(modifier = Modifier.alpha(0.7f))
+//            }
+//        }
+//    )
+//}
+
+//@OptIn(ExperimentalFoundationApi::class)
+//@Composable
+//fun PasswordTextField2(
+//    modifier : Modifier = Modifier,
+//    leadingIcon: ImageVector? = null,
+//    trailingIcon: ImageVector? = null,
+//    trailingText: String? = null,
+//    textFieldState: TextFieldState,
+//    hint: String,
+//    onLeadingClick: () -> Unit = {},
+//    onTrailingClick: () -> Unit = {}
+//) {
+//    BasicSecureTextField(
+//        state = textFieldState,
+//        textObfuscationMode = TextObfuscationMode.Hidden ,
+//        textStyle = LocalTextStyle.current.copy(
+//            color = MaterialTheme.colorScheme.onBackground
+//        ),
+//        keyboardType = KeyboardType.Password,
+//        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+//        modifier = modifier,
+//        decorator = {innerTextField ->
+//            Column {
+//                Row (
+//                    modifier = Modifier.fillMaxWidth(),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ){
+//                    if(leadingIcon != null) {
+//                        Icon(
+//                            imageVector = leadingIcon,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
+//                            modifier = Modifier
+//                                .clickable{onLeadingClick()}
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(16.dp))
+//                    }
+//
+//                    Box(
+//                        modifier = Modifier.weight(1f)
+//                    ) {
+//                        if (textFieldState.text.isEmpty()) {
+//                            Text(text = hint,
+//                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f),
+//                                modifier = Modifier.fillMaxWidth())
+//                        }
+//                        innerTextField()
+//                    }
+//
+//                    if(trailingIcon != null) {
+//                        Icon(
+//                            imageVector = trailingIcon,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
+//                            modifier = Modifier
+//                                .padding(end = 4.dp)
+//                                .clickable { onTrailingClick() }
+//                        )
+//                    } else if  (trailingText != null){
+//                        Text(
+//                            text = trailingText,
+//                            color = MaterialTheme.colorScheme.primary,
+//                            fontWeight = FontWeight.SemiBold,
+//                            modifier = Modifier
+//                                .padding(end = 4.dp)
+//                                .clickable { onTrailingClick() }
+//                        )
+//                    }
+//
+//                }
+//
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                HorizontalDivider(modifier = Modifier.alpha(0.7f))
+//            }
+//        }
+//    )
+//}
+
+
 
 
 
