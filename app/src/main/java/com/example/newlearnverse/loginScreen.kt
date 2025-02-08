@@ -68,8 +68,6 @@ fun LoginScreen( navController: NavController) {
             isPassword = true
         )
 
-
-
         OutlinedButton (
             onClick = {
                 navController.navigate(Routes.homeScreen)
