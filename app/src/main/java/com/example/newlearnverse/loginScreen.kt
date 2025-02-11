@@ -1,5 +1,8 @@
 package com.example.newlearnverse
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil3.Uri
 import com.example.newlearnverse.components.LoginTextFields
 
 @Composable
@@ -29,6 +33,8 @@ fun LoginScreen( navController: NavController) {
 
     var emailText by remember { mutableStateOf("")}
     var passText by remember { mutableStateOf("")}
+
+
 
     Column(modifier = Modifier
         .fillMaxSize()
